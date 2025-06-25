@@ -1,0 +1,46 @@
+:root {
+    --clr-accent: #6480c5;
+    --suggestion-bg: #213547;
+    --suggestion-selected: #172935;
+}
+
+@media (prefers-color-scheme: light) {
+    :root {
+        --clr-accent: #3b4d7c;
+        --suggestion-bg: #ededed;
+        --suggestion-selected: #e9ecf7;
+    }
+}
+
+.input-wrapper {
+    display: inline-block;
+    position: relative; /* important with the position absolute a bit further ...*/
+}
+
+z-email-spell-checker:not(:defined) {
+    display: none!important;
+}
+
+z-email-spell-checker#full-example-suggestion::part(suggestion) {
+    position: absolute;
+    top: calc(100% - 3px);
+    left: 0;
+    max-width: 100%;
+}
+
+z-email-spell-checker#full-example-suggestion::part(suggestion) {
+    box-sizing: border-box;
+    padding: 0.5rem;
+    display: inline-flex;
+    place-items: center;
+    color: var(--clr-accent);
+    background-color: var(--suggestion-bg);
+    border: none;
+    border-radius: 4px;
+    box-shadow: 4px 4px 5px rgb(0 0 0 / .2);
+    cursor: pointer;
+}
+z-email-spell-checker#full-example-suggestion::part(suggestion):hover,
+z-email-spell-checker#full-example-suggestion::part(suggestion):focus {
+    background-color: var(--suggestion-selected);
+}
