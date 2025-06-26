@@ -12,18 +12,37 @@
 
 .input-wrapper {
     display: inline-block;
-    position: relative; /* important with the position absolute a bit further ...*/
+    position: relative;
+}
+
+@supports (anchor-scope: --spell-checker-input) {
+    .input-wrapper {
+        anchor-scope: --spell-checker-input;
+    }
+
+    .input-wrapper input {
+        anchor-name: --spell-checker-input;
+    }
+
+    .input-wrapper z-email-spell-checker {
+        position-anchor: --spell-checker-input;
+        top: calc(anchor(bottom) - 3px);
+        left: anchor(left);
+    }
 }
 
 z-email-spell-checker:not(:defined) {
     display: none!important;
 }
 
-z-email-spell-checker::part(suggestion) {
+z-email-spell-checker {
+    z-index: 1;
     position: absolute;
+    margin: 0;
+    inset: auto;
     top: calc(100% - 3px);
     left: 0;
-    max-width: 100%;
+    margin-block-start: -3px;
 }
 
 z-email-spell-checker::part(suggestion) {
