@@ -85,37 +85,41 @@
 
     <section>
         <div class="container">
-            <h2 id="full-example">Full example</h2>
+            <h2 id="attribute-event">Attribute + Event</h2>
 
-            <p>Here is a full example with all features demonstrated and some styling that you can find in the demo.css file.</p>
+            <p>You can use the <code>email</code> property and <code>suggestion:apply</code> event to handle the element.</p>
+
+            <p>Update the <code>email</code> property each time the input value changes, a suggestion will apear if the library returns any.</p>
+
+            <p>When a suggestion is clicked, a <code>suggestion:apply</code> is fired on the component, use it so that you can update the input value.</p>
 
             <hr>
 
             <span class="input-wrapper">
                 <input
-                    id="full-example-input"
+                    id="attribute-event__input"
                     type="email"
                     placeholder="my@email.com">
 
-                <z-email-spell-checker id="full-example-suggestion" />
+                <z-email-spell-checker id="attribute-event__suggestion" />
             </span>
 
             <hr>
 
             <pre><code class="language-html">&lt;span class="input-wrapper"&gt;
     &lt;input
-        id="full-example-input"
+        id="attribute-event__input"
         type="email"
         placeholder="my@email.com"&gt;
 
-    &lt;z-email-spell-checker id="full-example-suggestion" /&gt;
+    &lt;z-email-spell-checker id="attribute-event__suggestion" /&gt;
 &lt;/span&gt;</code></pre>
 
             <pre><code class="language-js">import './z-email-spell-checker'
 import type { ZEmailSpellChecker, MailSuggestion } from './z-email-spell-checker';
 
-const $input = document.querySelector&lt;HTMLInputElement&gt;('#full-example-input');
-const $suggestion = document.querySelector&lt;ZEmailSpellChecker&gt;('#full-example-suggestion');
+const $input = document.querySelector&lt;HTMLInputElement&gt;('#attribute-event__input');
+const $suggestion = document.querySelector&lt;ZEmailSpellChecker&gt;('#attribute-event__suggestion');
 
 $input?.addEventListener('input', (event) => {
     const email = (event.target as HTMLInputElement).value.trim();
@@ -131,6 +135,44 @@ $suggestion?.addEventListener('suggestion:apply', (event) => {
     }
 });
 </code></pre>
+        </div>
+    </section>
+
+    <section>
+        <div class="container">
+            <h2 id="with-id">With ID</h2>
+
+            <p>You can add an id attribute to the input element and a <code>spell-checker-target</code> attribute on the component with the same value.</p>
+
+            <p>The component will then look for an input in the document with the id with the same value than the <code>spell-checker-target</code> attribute.</p>
+
+            <p>If there is any, it will then watch its value, check the spelling of the value and provide suggestion.</p>
+
+            <p>When you click on the suggestion, the input will be filled with the value of the suggestion.</p>
+
+            <hr>
+
+            <span class="input-wrapper">
+                <input
+                    id="with-id__input"
+                    type="email"
+                    placeholder="my@email.com">
+
+                <z-email-spell-checker spell-checker-target="with-id__input" />
+            </span>
+
+            <hr>
+
+            <pre><code class="language-html">&lt;span class="input-wrapper"&gt;
+    &lt;input
+        id="with-id__input"
+        type="email"
+        placeholder="my@email.com"&gt;
+
+    &lt;z-email-spell-checker spell-checker-target="with-id__input" /&gt;
+&lt;/span&gt;</code></pre>
+
+            <p>💡 Note: no js is needed here, we just play with the id and attribute</p>
         </div>
     </section>
 
