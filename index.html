@@ -176,6 +176,67 @@ $suggestion?.addEventListener('suggestion:apply', (event) => {
         </div>
     </section>
 
+    <section>
+        <div class="container">
+            <h2 id="configuration">Configuration</h2>
+
+            <p>You can configure the component by using its static method <code>configure</code></p>
+
+            <p>Here is the example configuration on this demo page: </p>
+
+            <pre><code class="language-ts">ZEmailSpellChecker.configure({
+    domains: [
+        ...ZEmailSpellChecker.POPULAR_DOMAINS,
+        'caradeuc.info',
+    ],
+    distanceFunction(domain: string, knownDomain: string) {
+        const dist = ZEmailSpellChecker.distanceFunction(domain, knownDomain);
+        // force prioritize .com matches over .co and .ca
+        // @see: https://github.com/smashsend/email-spell-checker/issues/33
+        if (knownDomain === 'com') return dist - 0.75;
+        return dist;
+    }
+});</code></pre>
+
+            <p>
+                The config object is the same (minus the email attribute) as the
+                <a href="https://github.com/smashsend/email-spell-checker/blob/main/src/lib/types.ts#L9-L21">
+                    <code>UserOptions</code> object in the original library
+                </a>.
+            </p>
+
+            <pre><code class="language-ts">type DistanceFunction = (a: string, b: string, threshold?: number) => number;
+
+interface MailSuggestion {
+  address: string;
+  domain: string;
+  full: string;
+}
+
+interface UserOptions {
+  email: string;
+  domains?: string[];
+  domainThreshold?: number;
+  topLevelDomains?: string[];
+  topLevelThreshold?: number;
+  secondLevelDomains?: string[];
+  secondLevelThreshold?: number;
+  distanceFunction?: DistanceFunction;
+  // Callbacks code. Totally optional
+  suggested?: (suggestion?: MailSuggestion) => void;
+  empty?: () => void;
+}</code></pre>
+
+            <hr>
+
+            <p>For convenience, static properties have been added on the webComponent's class: </p>
+
+            <pre><code class="language-ts">static POPULAR_DOMAINS = POPULAR_DOMAINS;
+static POPULAR_TLDS = POPULAR_TLDS;
+static distanceFunction = sift3Distance;</code>
+        </div>
+    </section>
+
     <footer>
         <div class="container">
             &copy; <a href="https://benjamin.caradeuc.info">Benjamin Caradeuc</a> 2025

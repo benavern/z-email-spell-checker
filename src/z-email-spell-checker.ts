@@ -1,13 +1,29 @@
 import { LitElement, html, nothing } from 'lit';
 import { customElement, property, state } from 'lit/decorators.js';
 
-import emailSpellChecker /*, { POPULAR_DOMAINS, POPULAR_TLDS } */ from '@zootools/email-spell-checker';
-// import distance from '@zootools/email-spell-checker/dist/lib/helpers/sift3Distance';
-import type { MailSuggestion } from '@zootools/email-spell-checker/dist/lib/types';
-export type { MailSuggestion };
+import emailSpellChecker, { POPULAR_DOMAINS, POPULAR_TLDS } from '@zootools/email-spell-checker';
+import sift3Distance from '@zootools/email-spell-checker/dist/lib/fuzzy-detection/sift3-distance';
+import type { MailSuggestion, UserOptions } from '@zootools/email-spell-checker/dist/lib/types';
+
+type ZEmailSpellCheckerOptions = Omit<UserOptions, 'email'>;
+
+export type { MailSuggestion, ZEmailSpellCheckerOptions };
 
 @customElement('z-email-spell-checker')
 export class ZEmailSpellChecker extends LitElement {
+    static POPULAR_DOMAINS = POPULAR_DOMAINS;
+    static POPULAR_TLDS = POPULAR_TLDS;
+    static distanceFunction = sift3Distance;
+
+    private static _userOptions: ZEmailSpellCheckerOptions = {};
+
+    static configure(config: ZEmailSpellCheckerOptions) {
+        ZEmailSpellChecker._userOptions = {
+            ...ZEmailSpellChecker._userOptions,
+            ...config,
+        };
+    }
+
     @state()
     private _suggestion?: MailSuggestion;
 
@@ -52,7 +68,11 @@ export class ZEmailSpellChecker extends LitElement {
 
     private _onEmailChange() {
         const email = this.email.trim();
-        this._suggestion = email ? emailSpellChecker.run({ email }) : undefined;
+
+        this._suggestion = email ? emailSpellChecker.run({
+            email,
+            ...ZEmailSpellChecker._userOptions,
+        }) : undefined;
     }
 
     private _onSuggestionClick() {

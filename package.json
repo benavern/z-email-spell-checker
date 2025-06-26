@@ -8,6 +8,12 @@
     "main": "dist/z-email-spell-checker.js",
     "module": "dist/z-email-spell-checker.js",
     "types": "dist/z-email-spell-checker.d.ts",
+    "exports": {
+        ".": {
+            "import": "./dist/z-email-spell-checker.js",
+            "types": "./dist/z-email-spell-checker.d.ts"
+        }
+    },
     "files": [
         "dist"
     ],
